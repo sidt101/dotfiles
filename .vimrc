@@ -26,11 +26,11 @@ Plugin 'szw/vim-tags'
 Plugin 'majutsushi/tagbar'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'wincent/command-t'
+Plugin 'rking/ag.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mileszs/ack.vim'
 Plugin 'ervandew/supertab'
 Plugin 'tpope/vim-surround'
-Plugin 'ctrlpvim/ctrlp.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -84,6 +84,7 @@ endfor
 set wildignore=*~
 set wildignore=*.*~
 set wildignore=*.swp
+set wildignore=*.tmp
 
 set cpoptions+=$
 
@@ -122,6 +123,7 @@ set shell=/bin/zsh
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! PromoteToLet()
   :normal! dd
+  :normal! dd
   :exec '?^\s*it\>'
   :normal! P
   :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
@@ -139,6 +141,67 @@ endfunction
 " SHORTCUT TO REFERENCE CURRENT FILE'S PATH IN COMMAND LINE MODE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 cnoremap <expr> %% expand('%:h').'/'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MULTIPURPOSE TAB KEY
+" Indent if we're at the beginning of a line. Else, do completion.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+inoremap <expr> <tab> InsertTabWrapper()
+inoremap <s-tab> <c-n>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Select a Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Run a given vim command on the results of fuzzy selecting from a given shell
+" command. See usage below.
+function! SelectaCommand(choice_command, selecta_args, vim_command)
+  try
+    let selection = system(a:choice_command . " | selecta " . a:selecta_args)
+    " Escape spaces in the file name. That ensures that it's a single argument
+    " when concatenated with vim_command and run with exec.
+    let selection = substitute(selection, ' ', '\\ ', "g")
+  catch /Vim:Interrupt/
+    " Swallow the ^C so that the redraw below happens; otherwise there will be
+    " leftovers from selecta on the screen
+    redraw!
+    return
+  endtry
+  redraw!
+  exec a:vim_command . " " . selection
+endfunction
+
+function! SelectaFile(path, glob, command)
+  call SelectaCommand("find " . a:path . "/* -type f -and -not -path '*/node_modules/*' -and -not -path '*/_build/*' -and -iname '" . a:glob . "' -and -not -iname '*.pyc' -and -not -ipath '*/tmp/*'", "", a:command)
+endfunction
+
+nnoremap <leader>f :call SelectaFile(".", "*", ":edit")<cr>
+nnoremap <leader>gv :call SelectaFile("app/views", "*", ":edit")<cr>
+nnoremap <leader>gc :call SelectaFile("app/controllers", "*", ":edit")<cr>
+nnoremap <leader>gm :call SelectaFile("app/models", "*", ":edit")<cr>
+nnoremap <leader>gh :call SelectaFile("app/helpers", "*", ":edit")<cr>
+nnoremap <leader>gl :call SelectaFile("lib", "*", ":edit")<cr>
+nnoremap <leader>gp :call SelectaFile("public", "*", ":edit")<cr>
+nnoremap <leader>gs :call SelectaFile("app/assets/stylesheets", "*.sass", ":edit")<cr>
+nnoremap <leader>e :call SelectaFile(expand('%:h'), "*", ":edit")<cr>
+nnoremap <leader>v :call SelectaFile(expand('%:h'), "*", ":view")<cr>
+
+"Fuzzy select
+function! SelectaIdentifier()
+  " Yank the word under the cursor into the z register
+  normal "zyiw
+  " Fuzzy match files in the current directory, starting with the word under
+  " the cursor
+  call SelectaCommand("find * -type f", "-s " . @z, ":e")
+endfunction
+nnoremap <c-g> :call SelectaIdentifier()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Swap panes
@@ -185,11 +248,12 @@ set history=150   " keep 50 lines of command line history
 set ruler         " show the cursor position all the time
 set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
-set vb            " turn on visual bell
 set nu            " show line numbers
 set sw=2          " set shiftwidth to 2
 set ts=2          " set number of spaces for a tab to 2
 set et            " expand tabs to spaces
+set shortmess=a   "Prevents press enter to continue
+set cmdheight=2
 
 " Don't use Ex mode, use Q for formatting
 map Q gq

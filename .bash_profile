@@ -1,6 +1,6 @@
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 
-export PATH=/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
+export PATH=/bin:/sbin:/usr/local/bin:/usr/bin:/usr/local/sbin:$PATH
 export EDITOR='subl -w'
 
 alias gpoh='git push origin head'
