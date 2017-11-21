@@ -203,6 +203,9 @@ function! SelectaIdentifier()
 endfunction
 nnoremap <c-g> :call SelectaIdentifier()<cr>
 
+" turn off search highlights by just hitting return in command mode
+nnoremap <CR> :noh<CR><CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Swap panes
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
