@@ -10,6 +10,7 @@ alias gst='git status'
 alias gbr='git branch'
 alias gcan='git commit --amend --no-edit'
 alias gap='git add -p'
+alias gaa='git add .'
 alias gco='git checkout'
 alias utility1='ssh birdcage-utility1.snc1'
 alias utility2='ssh birdcage-utility2.snc1'
@@ -20,12 +21,14 @@ alias be='bundle exec'
 alias cerebro='ssh cerebro-job-submitter3.snc1'
 alias cerebro_s='ssh svc_optimize@cerebro-job-submitter3.snc1'
 alias birdcage='cd ~/projects/birdcage'
-alias birdcage-dw='cd ~/projects/birdcage-data-worker'
+alias dw='cd ~/projects/birdcage-data-worker'
 alias bash='vim ~/.bash_profile'
 alias vimrc='vim ~/.vimrc'
 
 # enable the git bash completion commands
 source ~/.git-completion
+
+[[ -s $HOME/.nvm/nvm.sh ]] && source "$HOME/.nvm/nvm.sh"  # This loads NVM
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 parse_git_branch() {
