@@ -24,6 +24,7 @@ alias birdcage='cd ~/projects/birdcage'
 alias dw='cd ~/projects/birdcage-data-worker'
 alias bash='vim ~/.bash_profile'
 alias vimrc='vim ~/.vimrc'
+alias ll='ls -al'
 
 # enable the git bash completion commands
 source ~/.git-completion
