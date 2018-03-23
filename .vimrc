@@ -101,7 +101,7 @@ set backspace=indent,eol,start
 set nocursorcolumn
 set nocursorline
 set norelativenumber
-set clipboard=unnamedplus
+set clipboard^=unnamed,unnamedplus
 syntax sync minlines=256
 " from https://github.com/vim/vim/issues/282
 set lazyredraw

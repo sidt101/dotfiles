@@ -25,14 +25,8 @@ alias dw='cd ~/projects/birdcage-data-worker'
 alias bash='vim ~/.bash_profile'
 alias vimrc='vim ~/.vimrc'
 alias ll='ls -al'
-
-# enable the git bash completion commands
-source ~/.git-completion
+alias ber='bundle exec rspec'
 
 [[ -s $HOME/.nvm/nvm.sh ]] && source "$HOME/.nvm/nvm.sh"  # This loads NVM
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-export PS1="\h:\u \W\$(parse_git_branch)\$ "
