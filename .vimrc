@@ -367,6 +367,7 @@ let g:netrw_browse_split=0
 let g:netrw_list_hide='^\..*\.swp$'
 let g:CommandTHighlightColor='blue'
 let g:CommandTMaxFiles=200000
+let g:CommandTWildIgnore=&wildignore . ",*/node_modules"
 
 " Colors *********************************************************************
 syntax enable
