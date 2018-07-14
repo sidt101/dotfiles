@@ -2,6 +2,7 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 set hidden
+set viminfo+=n~/.vim/viminfo
 filetype off
 
 " vundle changes
@@ -21,6 +22,7 @@ Plugin 'benmills/vimux'
 Plugin 'blackboard.vim'
 Plugin 'pgr0ss/vimux-ruby-test'
 Plugin 'while1eq1/vim-monokai-black'
+Plugin 'rlue/vim-fold-rspec'
 Plugin 'janko-m/vim-test'
 Plugin 'szw/vim-tags'
 Plugin 'majutsushi/tagbar'
@@ -325,6 +327,7 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+imap jk <Esc>
 
 " Sessions ********************************************************************
 set sessionoptions=blank,buffers,curdir,folds,help,options,resize,tabpages,winpos,winsize
@@ -345,6 +348,9 @@ exec hiExtraWhiteSpace
 au ColorScheme * exec hiExtraWhiteSpace
 au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 au BufRead,InsertLeave * match ExtraWhitespace /\s\+$/
+" Autoremove whitespace on save
+autocmd BufWritePre *.rb %s/\s\+$//e
+autocmd BufWritePre *.js %s/\s\+$//e
 
 " Filetypes
 au BufRead,BufNewFile *.feature setfiletype cucumber
