@@ -17,6 +17,8 @@ Plugin 'mattn/gist-vim'
 Plugin 'tpope/vim-rails'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'tpope/vim-haml'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-commentary'
 Plugin 'benmills/vimux'
 Plugin 'blackboard.vim'
@@ -36,6 +38,17 @@ Plugin 'tpope/vim-surround'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+
+" The % key will switch between opening and closing brackets. By sourcing
+" matchit.vim — a standard file in Vim installations for years — the key can also
+" switch among e.g. if/elsif/else/end, between opening and closing XML tags, and
+" more.
+runtime! macros/matchit.vim
+
+" status line config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 filetype plugin indent on    " required
 
@@ -125,8 +138,7 @@ set shell=/bin/zsh
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! PromoteToLet()
   :normal! dd
-  :normal! dd
-  :exec '?^\s*it\>'
+  " :exec '?^\s*it\>'
   :normal! P
   :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
   :normal ==

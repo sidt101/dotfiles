@@ -95,3 +95,5 @@ source $ZSH/oh-my-zsh.sh
  source ~/.bash_profile
 export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
 export PATH="/usr/local/opt/openssl/bin:$PATH"
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
