@@ -92,9 +92,6 @@ source $ZSH/oh-my-zsh.sh
 # export ARCHFLAGS="-arch x86_64"
 # Essential access tokens, tied to your user.
 
-export GITHUB_TOKEN=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
-export GEMFURY_TOKEN=3qxN6P4TZyzpEb8LyYmz
-export DD_API_KEY="b6ac33b8d20090e3c6835ca3b4dc1091"
 export HOMEBREW_GITHUB_API_TOKEN=$GITHUB_TOKEN
 
 # Make tokens available to (some) Ruby projects.
